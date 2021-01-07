@@ -12,4 +12,11 @@ class mainController extends AbstractController {
     public function home()  {
         return $this->render("home.html.twig");
     }
+    
+    /**
+     * @Route("/test", name="test_page")
+     */
+    public function test()  {
+        return $this->render("home.html.twig");
+    }
 }
