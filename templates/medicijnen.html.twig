@@ -1,0 +1,17 @@
+{% extends "mainTemplate.html.twig" %}
+
+{% block main %}
+    <br>
+    <h1 class="h1 text-center" >medicijnen overzicht</h1>
+    <br>
+    <table class="table table-bordered table-sm">
+    {% for medication in medications %}
+        <tr>
+            <th> {{ medication.Name }} </th>
+            <th> {{ medication.PharmaceuticalCompany }}</th>
+            <th> {{ medication.Price }}</th>
+            <th> {{ medication.Insured}} </th>
+        </tr>
+    {% endfor %}
+    </table>
+{% endblock %}

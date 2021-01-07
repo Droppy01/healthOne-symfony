@@ -1,7 +1,9 @@
 <?php
 namespace App\Controller;
 
+use App\Entity\Medication;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class mainController extends AbstractController {
@@ -14,9 +16,14 @@ class mainController extends AbstractController {
     }
     
     /**
-     * @Route("/test", name="test_page")
+     * @Route("/medicijnen", name="medicijnen_page")
      */
-    public function test()  {
-        return $this->render("home.html.twig");
+    public function showMedicijnen() : Response   {
+        $medications = $this->getDoctrine()->getManager()->getRepository(Medication::class)->findAll();
+
+
+
+
+        return $this->render("medicijnen.html.twig", ["medications"=>$medications] );
     }
 }
