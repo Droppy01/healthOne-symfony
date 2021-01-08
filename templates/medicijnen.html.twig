@@ -6,7 +6,7 @@
     <br>
     <table class="table table-bordered table-sm">
     {% for medication in medications %}
-        <tr>
+        <tr id="{{ medication.id }}">
             <th> {{ medication.Name }} </th>
             <th> {{ medication.PharmaceuticalCompany }}</th>
             <th> {{ medication.Price }}</th>

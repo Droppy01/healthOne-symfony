@@ -52,12 +52,48 @@ class mainController extends AbstractController {
             $Medication->setInsured($data["Insured"]);
         }
 
-        // TODO make validate request
+        // TODO validate Request
 
         $Manager = $this->getDoctrine()->getManager();
         $Manager->persist($Medication);
         $Manager->flush();
         return new JsonResponse($data);
+    }
+
+    /**
+     * @Route("/medicijnen", name="medicijn_verwijderen", methods={"DELETE"})
+     */
+    public function removeMedication(Request $request) {
+        // DELETE /medicijnen?id=2
+        $id = (int) $request->query->get("id");
+
+        if ($id == null) {
+            $response = new JsonResponse(array(
+            "error"=>"dit not get parameter id, or parameter id is not valid  "
+        ));
+            $response->setStatusCode(400);
+            return $response;
+
+        } else {
+            $Manager = $this->getDoctrine()->getManager();
+            $medication = $Manager->getRepository(Medication::class)->findOneBy(array("id"=>$id));
+
+            if ($medication !== null) {
+
+                // delete
+                $Manager->remove($medication);
+                $Manager->flush();
+                return new JsonResponse(array(
+                   "sucsess"=>"medication (".$id.") deleted"
+                ));
+            } else {
+                $response = new JsonResponse( array(
+                    "error"=>"medication (".$id.") does not exist"
+                ));
+                $response->setStatusCode(404);
+                return $response;
+            }
+        }
     }
 
 
