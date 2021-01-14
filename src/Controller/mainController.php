@@ -96,7 +96,6 @@ class mainController extends AbstractController {
             $medication = $this->autofillMedication(
                 $this->getEntryByIdFromQuery($Manager, $request, Medication::class),
                 $this->getDataFromHtmlBody($request)
-
             );
 
             $Manager->persist($medication);
@@ -179,6 +178,8 @@ class mainController extends AbstractController {
         }
         return $data;
     }
+
+
 
 
 }
