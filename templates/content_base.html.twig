@@ -27,6 +27,9 @@
         </nav>
     </header>
     <main class="container">
+        {% if s is defined %}
+            test
+        {% endif %}
         {% block main %}
         {% endblock %}
     </main>

@@ -33,6 +33,12 @@ class Prescription
      */
     private $medication;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Customer::class, inversedBy="prescriptions")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $Customer;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -70,6 +76,18 @@ class Prescription
     public function setMedication(?Medication $medication): self
     {
         $this->medication = $medication;
+
+        return $this;
+    }
+
+    public function getCustomer(): ?Customer
+    {
+        return $this->Customer;
+    }
+
+    public function setCustomer(?Customer $Customer): self
+    {
+        $this->Customer = $Customer;
 
         return $this;
     }

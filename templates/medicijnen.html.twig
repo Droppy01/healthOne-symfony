@@ -4,14 +4,30 @@
     <br>
     <h1 class="h1 text-center" >medicijnen overzicht</h1>
     <br>
+
     <table class="table table-bordered table-sm">
-    {% for medication in medications %}
-        <tr id="{{ medication.id }}">
-            <th> {{ medication.Name }} </th>
-            <th> {{ medication.PharmaceuticalCompany }}</th>
-            <th> {{ medication.Price }}</th>
-            <th> {{ medication.Insured}} </th>
-        </tr>
-    {% endfor %}
+        <thead>
+            <td>Naam</td>
+            <td>Farmaceutisch bedrijf</td>
+            <td>prijs</td>
+            <td>versekerd </td>
+
+        </thead>
+        <tbody>
+        {% for medication in medications %}
+            <tr id="{{ medication.id }}">
+                <th> {{ medication.Name }} </th>
+                <th> {{ medication.PharmaceuticalCompany }}</th>
+                <th> {{ medication.Price }}</th>
+                <th>
+                    {% if medication.Insured %}
+                        ja
+                    {% else %}
+                        nee
+                    {% endif %}
+                </th>
+            </tr>
+        {% endfor %}
+        </tbody>
     </table>
 {% endblock %}

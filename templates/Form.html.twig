@@ -1,10 +1,13 @@
 {% extends "content_base.html.twig" %}
 
+{% block title %}
+    {{ Formtitle }}
+{% endblock %}
+
 {% block main %}
-<p class="h1"> todo </p>
+
+<p class="h1"> {% apply upper %} {{ Formtitle }} {% endapply%} </p>
     {{ form_start(form) }}
         {{ form_widget(form) }}
-
-        <button class="btn btn-primary">create</buttonclass>
     {{ form_end(form) }}
 {% endblock %}
