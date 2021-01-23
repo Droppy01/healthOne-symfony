@@ -54,7 +54,15 @@ class adminController extends AbstractController
     }
 
     /**
-     * @Route ( "/Customer/new", name="admin_medication_add")
+     * @Route ("/Customer", name="admin_Customer_Vieuw")
+     */
+    public function getCustomers(EntityManagerInterface $em) {
+        $Customers = $em->getRepository(Customer::class)->findAll();
+        return $this->render("customerVieuw.html.twig", ["Customers"=>$Customers]);
+    }
+
+    /**
+     * @Route ( "/Customer/new", name="admin_Customer_add")
      */
     public function newCustomer( EntityManagerInterface $em, Request $request) {
         $form = $this->createForm(CustomerFormType::class);
@@ -77,7 +85,7 @@ class adminController extends AbstractController
             $em->persist($customer);
             $em->flush();
 
-            return $this->redirectToRoute("home_page");
+            return $this->redirectToRoute("admin_Customer_Vieuw");
 
         }else {
             return $this->render("Form.html.twig", ["form"=>$form->createView(),  "Formtitle"=>"adding a customer" ] );
@@ -89,7 +97,7 @@ class adminController extends AbstractController
     /**
      * @Route ( "/Prescription/new", name="admin_Prescription_add")
      */
-    public function newArtical( EntityManagerInterface $em, Request $request) {
+    public function newPrescription( EntityManagerInterface $em, Request $request) {
         $form = $this->createForm(PrescriptionFormType::class);
 
         $form->handleRequest($request);

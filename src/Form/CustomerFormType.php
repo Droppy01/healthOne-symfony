@@ -14,11 +14,11 @@ class CustomerFormType extends \Symfony\Component\Form\AbstractType
     {
         $builder
             ->add('firstName', TextType::class)
-            ->add('prefix', TextType::class)
+            ->add('prefix', TextType::class, ['required'   => false])
             ->add('lastName', TextType::class)
             ->add('customerId', TextType::class)
             ->add('Address', TextType::class)
-            ->add('zipCode', TextType::class)
+            ->add('zipCode', TextType::class, ['required'   => false])
             ->add('city', TextType::class)
             ->add("submit", SubmitType::class, ["attr"=>["class"=>'btn btn-primary'], "label"=>"opslaan"])
         ;

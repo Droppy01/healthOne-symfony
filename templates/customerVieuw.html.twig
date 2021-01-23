@@ -1,0 +1,9 @@
+{% extends "content_base.html.twig" %}
+
+{% block main %}
+<ul>
+{% for customer in Customers %}
+    <li> {{ customer.id}}: {{ customer.firstName }}{% if customer.prefix is not null %} {{ customer.prefix }}{% endif %} {{ customer.lastName}}  </li>
+{% endfor %}
+</ul>
+{% endblock %}
