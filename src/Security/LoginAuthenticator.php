@@ -7,6 +7,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
@@ -31,12 +32,13 @@ class LoginAuthenticator extends AbstractFormLoginAuthenticator implements Passw
     private $csrfTokenManager;
     private $passwordEncoder;
 
-    public function __construct(EntityManagerInterface $entityManager, UrlGeneratorInterface $urlGenerator, CsrfTokenManagerInterface $csrfTokenManager, UserPasswordEncoderInterface $passwordEncoder)
+    public function __construct(EntityManagerInterface $entityManager, UrlGeneratorInterface $urlGenerator, CsrfTokenManagerInterface $csrfTokenManager, UserPasswordEncoderInterface $passwordEncoder, RouterInterface $router)
     {
         $this->entityManager = $entityManager;
         $this->urlGenerator = $urlGenerator;
         $this->csrfTokenManager = $csrfTokenManager;
         $this->passwordEncoder = $passwordEncoder;
+        $this->router = $router;
     }
 
     public function supports(Request $request)
@@ -95,8 +97,14 @@ class LoginAuthenticator extends AbstractFormLoginAuthenticator implements Passw
         if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
             return new RedirectResponse($targetPath);
         }
-
-       return new RedirectResponse("/");
+        switch ($token->getRoleNames()[0]) {
+            case "ROLE_ARTS":
+                return  new RedirectResponse( $this->router->generate("arts_Customers_Vieuw") );
+            case "ROLE_ADMIN":
+                return new RedirectResponse( $this->router->generate("medicijnen_page"));
+            default:
+                return new RedirectResponse( $this->router->generate("home_page"));
+        }
     }
 
     protected function getLoginUrl()

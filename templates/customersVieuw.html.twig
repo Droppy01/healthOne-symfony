@@ -1,0 +1,19 @@
+{% extends "content_base.html.twig" %}
+
+{% block main %}
+<ul>
+{% for customer in Customers %}
+    {% if is_granted('ROLE_ADMIN') %}
+        <a href="{{ path("admin_Customer_add") }}" class="btn btn-success">toevoegen</a>
+
+    {% endif %}
+    <a href="{{ path("arts_Customer_Vieuw", {id: customer.id }) }}">
+        {{ customer.id}}: {{ customer.firstName }}
+        {% if customer.prefix is not null %}
+            {{ customer.prefix }}
+        {% endif %}
+        {{ customer.lastName}}
+    </a>
+{% endfor %}
+</ul>
+{% endblock %}

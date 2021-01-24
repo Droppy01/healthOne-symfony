@@ -1,9 +1,17 @@
 {% extends "content_base.html.twig" %}
 
 {% block main %}
-<ul>
-{% for customer in Customers %}
-    <li> {{ customer.id}}: {{ customer.firstName }}{% if customer.prefix is not null %} {{ customer.prefix }}{% endif %} {{ customer.lastName}}  </li>
-{% endfor %}
-</ul>
+    <h1 class="h1" > {{ klant.firstName}} {{ klant.prefix }} {{ klant.lastName}} </h1>
+    {% if is_granted('ROLE_ADMIN') %}
+        {% include '_delete_form.html.twig' with {"delete_path": "admin_Customer_delete", "delete_id": klant.id} %}
+        <a href="{{ path("admin_Customer_edit", { id: klant.id }) }}", class="btn btn-success">bijwerken</a>
+    {% endif %}
+    <h1 class="h1" >recepten</h1>
+    {% for prescription in klant.prescriptions %}
+        <div>
+            <h2 class="h2" >{{ prescription.Date.format('d/m/Y') }}</h2>
+            {{ prescription.medication.pharmaceuticalCompany }}
+        </div>
+    {% endfor %}
+    {{ dump()}}
 {% endblock %}

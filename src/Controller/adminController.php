@@ -54,15 +54,76 @@ class adminController extends AbstractController
     }
 
     /**
-     * @Route ("/Customer", name="admin_Customer_Vieuw")
+     * @Route("/medication/{id}", name="admin_medication_delete", methods={"DELETE"})
      */
-    public function getCustomers(EntityManagerInterface $em) {
-        $Customers = $em->getRepository(Customer::class)->findAll();
-        return $this->render("customerVieuw.html.twig", ["Customers"=>$Customers]);
+    public function deleteMedication(Request $request, Medication $medication)
+    {
+        if ($this->isCsrfTokenValid('delete'.$medication->getId(), $request->request->get('_token'))) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($medication);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('medicijnen_page');
     }
 
     /**
-     * @Route ( "/Customer/new", name="admin_Customer_add")
+     * @Route("/medication/{id}/edit", name="admin_medication_edit", methods={"GET","POST"})
+     */
+    public function editMedication(Request $request, Medication $medication)
+    {
+        $form = $this->createForm(medicationFormType::class, $medication);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('customer_index');
+        }
+
+        return $this->render('Form.html.twig', [
+            'Formtitle' => "medicijen bijwerken",
+            'customer' => $medication,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/patienten/{id}", name="admin_Customer_delete", methods={"DELETE"})
+     */
+    public function deleteCustomer(Request $request, Customer $customer)
+    {
+        if ($this->isCsrfTokenValid('delete'.$customer->getId(), $request->request->get('_token'))) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($customer);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('arts_Customers_Vieuw');
+    }
+    /**
+     * @Route("/Customer/{id}/edit", name="admin_Customer_edit", methods={"GET","POST"})
+     */
+    public function editCustomer(Request $request, Customer $customer)
+    {
+        $form = $this->createForm(CustomerFormType::class, $customer);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('arts_Customer_Vieuw', ["id" => $customer->getId()]);
+        }
+
+        return $this->render('Form.html.twig', [
+            'Formtitle' => "medicijen bijwerken",
+            'customer' => $customer,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route ( "/patienten/new", name="admin_Customer_add")
      */
     public function newCustomer( EntityManagerInterface $em, Request $request) {
         $form = $this->createForm(CustomerFormType::class);
@@ -118,4 +179,5 @@ class adminController extends AbstractController
             return $this->render("Form.html.twig", ["form"=>$form->createView() , "Formtitle"=>  "test"] );
         }
     }
+
 }
