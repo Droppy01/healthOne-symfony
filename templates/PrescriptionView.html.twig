@@ -1,0 +1,13 @@
+{% extends "content_base.html.twig" %}
+
+{% block main %}
+        <h1>Recepten overzicht</h1>
+
+        {%for Prescription in Prescriptions %}
+            <div id="{{ Prescription.id}}">
+                <h1 class="h2">{{ Prescription.Customer.firstname }} {{ Prescription.Customer.prefix }} {{  Prescription.Customer.lastName}} ({{ Prescription.date.format( "d/m/Y" ) }})</h1>
+                <p class="h6" >{{ Prescription.dose }}x {{ Prescription.medication.name }} ({{ Prescription.medication.pharmaceuticalCompany }})</p>
+            </div>
+        {% endfor %}
+
+{% endblock %}

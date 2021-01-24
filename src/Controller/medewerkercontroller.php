@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * @Route ("/admin")
  */
-class adminController extends AbstractController
+class medewerkercontroller extends AbstractController
 {
     /**
      * @Route ( "/medication/new", name="admin_medication_add")
